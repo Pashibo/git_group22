@@ -1,1 +1,6 @@
-the 6 text
+hello
+how
+are
+you
+HeLLo
+HELLO
