@@ -1,7 +1,0 @@
-main 1 comment
-main 2 commenT
-first_branch one comment
-first_branch second comment
-
-Ввод текста, который будет являться
-актуальным для обеих веток
