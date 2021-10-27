@@ -1,0 +1,391 @@
+SQL HomeWork 3. 
+
+Подключитесь к своей базе данных
+SQL запросы и скрин диаграммы выгрузить на GitHub.
+
+Хост (Host):         159.69.151.133
+Порт (Port):         5056
+База данных (DB):    qa_db_22_22
+Пользователь (User): user_22_22
+Пароль (Pass):       123
+
+
+1. Создайте базу из представленной картинки.
+      - У каждой таблицы должно быть поле id
+      - id автоинкрементальный и является первичным ключом
+ 2. Заполните таблицы данными. Не менее 10 строк в каждой таблице
+ 3. Добавить таблицу Suppliers с полями id, name
+ 4. Добавить 10 строк поставщиков в таблицу Suppliers
+ 5. Обновить таблицу Materials. Добавить поле suplier_id которое 
+ связано с полем id в таблице Suppliers
+ 6. Обновить таблицу Employees. Добавить varchar поле surname на 50 символов.
+ 7. Обновить таблицу Salary. Добавить varchar поле currency на 7 символов.
+
+
+
+create table roles (
+	id serial primary key,
+	role_title varchar(50) not null
+);
+
+
+insert into roles (role_title) values
+('Barista'),
+('Call Center Employee'),
+('Cashier'),
+('Consultant'),
+('Store Manager'),
+('Area Manager'),
+('Supervisor'),
+('General Manager'),
+('Loader'),
+('Cleaner');
+
+
+
+create table salary (
+	id serial primary key,
+	monthly_salary int not null
+);
+
+
+insert into salary (monthly_salary) values
+(500),
+(900),
+(1400),
+(2000),
+(2500),
+(2800),
+(3000),
+(4000),
+(4400),
+(5000);
+
+
+
+create table roles_salary (
+	id serial primary key,
+	id_role int references roles(id),
+	id_salary int references salary(id)
+);
+
+
+insert into roles_salary (id_role, id_salary) values
+(1, 3),
+(2, 5),
+(3, 6),
+(4, 4),
+(5, 7),
+(6, 8),
+(7, 9),
+(8, 10),
+(9, 2),
+(10, 1);
+
+
+
+create table employees (
+	id serial primary key,
+	employee_name varchar(50) not null
+);
+
+
+insert into employees (employee_name) values
+('Harold Freeman'),
+('Marilyn Jones'),
+('Harold Farmer'),
+('David McDaniel'),
+('James Martin'),
+('Patricia Scott'),
+('Helen Moore'),
+('Charles Foster'),
+('Harold Edwards'),
+('Robert Morgan'),
+('Sandra Tucker'),
+('Robert Henry'),
+('Karen Johnson'),
+('Shirley Welch'),
+('Norma Harrison'),
+('Cynthia Castillo'),
+('Donald Cox'),
+('Charles Hudson'),
+('Karen Stevens'),
+('Edward Ramos'),
+('Gladys Taylor'),
+('Michael Duncan'),
+('Edwin Cortez'),
+('Linda Hodges'),
+('Gregory Gray'),
+('Nellie Wright'),
+('Linda White'),
+('Troy Lopez'),
+('Linda Brown'),
+('Marion Barber');
+
+
+
+create table employees_roles (
+	id serial primary key,
+	id_role int references roles(id),
+	id_employee int references employees(id)
+);
+
+
+insert into employees_roles (id, id_role, id_employee) values
+(default, 1, 1),
+(default, 1, 2),
+(default, 2, 3),
+(default, 2, 4),
+(default, 2, 5),
+(default, 2, 6),
+(default, 3, 7),
+(default, 3, 8),
+(default, 3, 9),
+(default, 3, 10),
+(default, 4, 11),
+(default, 4, 12),
+(default, 4, 13),
+(default, 4, 14),
+(default, 4, 15),
+(default, 4, 16),
+(default, 5, 17),
+(default, 5, 18),
+(default, 6, 19),
+(default, 6, 20),
+(default, 7, 21),
+(default, 7, 22),
+(default, 8, 23),
+(default, 9, 24),
+(default, 9, 25),
+(default, 9, 26),
+(default, 9, 27),
+(default, 10, 28),
+(default, 10, 29),
+(default, 10, 30);
+
+
+
+create table service (
+	id serial primary key,
+	service_title varchar(50),
+	price int not null
+);
+
+insert into service(service_title, price) values
+('PC Game', 2500),
+('Mobile Game', 2000),
+('WebSite', 1500),
+('Desktop App', 1000),
+('Calculation', 300),
+('Phone call', 100),
+('Consultation', 200),
+('Catering', 600),
+('Cleaning', 350),
+('Pet Sitter', 400);
+
+
+
+create table materials (
+	id serial primary key,
+	material_title varchar(50),
+	amount int not null,
+	price int not null
+);
+
+
+insert into materials (material_title, amount, price) values
+('Software 4', 3, 1350),
+('Software 3', 3, 1200),
+('Software 2', 2, 700),
+('Software 1', 3, 750),
+('Calculator', 1, 30),
+('Telephone', 2, 400),
+('Badge', 1, 5),
+('Products', 10, 60),
+('Cleaning products', 7, 35),
+('Delicacies', 4, 20);
+
+
+--select * 
+--from employees full join service
+--on employees.id = service.id
+--full join materials
+--on employees.id = materials.id;
+
+
+create table claim (
+	id serial primary key,
+	service_id int references service(id),
+	employee_id int references employees(id),
+	material_id int references materials(id),
+	claim_date date,
+	sales_manager int references employees(id)
+);
+
+
+-- delete from claim *;
+
+-- drop table claim;
+
+
+insert into claim 
+(id, service_id, employee_id, material_id, claim_date, sales_manager)
+values
+(default, 1, 1, 1, '2021-01-01', 1),
+(default, 2, 2, 2, '2021-02-03', 2),
+(default, 3, 3, 3, '2021-09-07', 3),
+(default, 4, 4, 4, '2021-10-30', 4),
+(default, 5, 5, 5, '2021-10-28', 5),
+(default, 6, 6, 6, '2021-11-26', 6),
+(default, 7, 7, 7, '2021-11-14', 7),
+(default, 8, 8, 8, '2021-12-15', 8),
+(default, 9, 9, 9, '2021-03-10', 9),
+(default, 10, 10, 10, '2021-03-06', 10),
+(default, 5, 11, 5, '2021-04-03', 11),
+(default, 6, 12, 6, '2021-04-01', 12),
+(default, 7, 13, 7, '2021-06-19', 13),
+(default, 8, 14, 8, '2021-08-18', 14),
+(default, 8, 15, 8, '2021-09-17', 15),
+(default, 10, 16, 10, '2021-10-16', 16),
+(default, 10, 17, 10, '2021-11-18', 17),
+(default, 10, 18, 10, '2021-04-04', 18),
+(default, 9, 19, 9, '2021-05-03', 19),
+(default, 8, 20, 8, '2021-07-02', 20),
+(default, 7, 21, 7, '2021-09-11', 21),
+(default, 6, 22, 6, '2021-08-14', 22),
+(default, 5, 23, 5, '2021-09-15', 23),
+(default, 4, 24, 4, '2021-09-16', 24),
+(default, 3, 25, 3, '2021-04-20', 25),
+(default, 10, 26, 10, '2021-04-22', 26),
+(default, 8, 27, 8, '2021-03-23', 27),
+(default, 9, 28, 9, '2021-02-26', 28),
+(default, 5, 29, 5, '2021-11-28', 29),
+(default, 10, 30, 10, '2021-12-25', 30);
+
+
+
+create table suppliers (
+	id serial primary key,
+	name varchar(50) not null
+);
+
+
+insert into suppliers (name)
+values 
+('James M. M.'),
+('Christopher M. C.'),
+('Lillian S. S.'),
+('Barbara H. H.'),
+('Carol N. N.'),
+('Martin G. G.'),
+('Denise N. D.'),
+('Alan W. W.'),
+('Jeffrey B. B.'),
+('Elsie H. E.');
+
+
+
+alter table materials 
+add column suplier_id int references suppliers(id);
+
+
+update materials set suplier_id = 1 
+	where materials.id = 1;
+update materials set suplier_id = 3 
+	where materials.id = 2;
+update materials set suplier_id = 2 
+	where materials.id = 3; 
+update materials set suplier_id = 4 
+	where materials.id = 4; 
+update materials set suplier_id = 6 
+	where materials.id = 5; 
+update materials set suplier_id = 5 
+	where materials.id = 6; 
+update materials set suplier_id = 10 
+	where materials.id = 7; 
+update materials set suplier_id = 9 
+	where materials.id = 8;
+update materials set suplier_id = 8 
+	where materials.id = 9; 
+update materials set suplier_id = 7 
+	where materials.id = 10; 
+
+
+-- alter table materials drop column suplier_id RESTRICT;
+
+-- select * from materials;
+
+
+
+alter table employees 
+add column surname varchar (50);
+
+	
+update employees set surname = 'Harold' 
+	where employees.id = 1;
+update employees set surname = 'Marilyn' 
+	where employees.id = 2;
+update employees set surname = 'Harold' 
+	where employees.id = 3;
+update employees set surname = 'David' 
+	where employees.id = 4;
+update employees set surname = 'James' 
+	where employees.id = 5;
+update employees set surname = 'Patricia' 
+	where employee_name = 'Patricia Scott';
+update employees set surname = 'Helen' 
+	where employee_name = 'Helen Moore';
+update employees set surname = 'Charles' 
+	where employee_name = 'Charles Foster';
+update employees set surname = 'Harold' 
+	where employee_name = 'Harold Edwards';
+update employees set surname = 'Robert' 
+	where employee_name = 'Robert Morgan';
+update employees set surname = 'Sandra' 
+	where employee_name = 'Sandra Tucker';
+update employees set surname = 'Robert' 
+	where employee_name = 'Robert Henry';
+update employees set surname = 'Karen' 
+	where employee_name = 'Karen Johnson';
+update employees set surname = 'Shirley' 
+	where employee_name = 'Shirley Welch';
+update employees set surname = 'Norma' 
+	where employee_name = 'Norma Harrison';
+update employees set surname = 'Cynthia' 
+	where employee_name = 'Cynthia Castillo';
+update employees set surname = 'Donald' 
+	where employee_name = 'Donald Cox';
+update employees set surname = 'Charles' 
+	where employee_name = 'Charles Hudson';
+update employees set surname = 'Karen' 
+	where employee_name = 'Karen Stevens';
+update employees set surname = 'Edward' 
+	where employee_name = 'Edward Ramos';
+update employees set surname = 'Gladys' 
+	where employee_name = 'Gladys Taylor';
+update employees set surname = 'Michael' 
+	where employee_name = 'Michael Duncan';
+update employees set surname = 'Edwin' 
+	where employee_name = 'Edwin Cortez';
+update employees set surname = 'Linda' 
+	where employee_name = 'Linda Hodges';
+update employees set surname = 'Gregory' 
+	where employee_name = 'Gregory Gray';
+update employees set surname = 'Nellie' 
+	where employees.id = 26;
+update employees set surname = 'Linda' 
+	where employees.id = 27;
+update employees set surname = 'Troy' 
+	where employees.id = 28;
+update employees set surname = 'Linda' 
+	where employees.id = 29;
+update employees set surname = 'Marion' 
+	where employees.id = 30;
+
+
+
+alter table salary 
+add column currency varchar (7) default 'usd';
+
+
+--alter table salary drop column currency RESTRICT;
